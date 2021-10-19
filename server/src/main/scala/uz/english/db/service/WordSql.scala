@@ -8,19 +8,20 @@ import cats.syntax.all
 import skunk._
 import skunk.codec.all._
 import skunk.implicits._
-import uz.english.{User, WordWithoutId}
+import uz.english.{User, WordWithoutId, Word}
 
-object WordSql:
+object WordSql {
 
-  val codec: Codec[User] =
-    (int4 ~ varchar).imap {
-      case (i ~ n) => User(i, n)
-    }(c => c.id ~ c.name)
+  val codec: Codec[Word] =
+    (int4 ~ varchar ~ varchar).imap {
+      case (i ~ v ~ d) => Word(i, v, d)
+    }(c => c.id ~ c.value ~ c.definition)
 
   val insert: Command[WordWithoutId] =
     sql"""INSERT INTO "word" VALUES (DEFAULT, $varchar, $varchar)"""
      .command
      .gcontramap[WordWithoutId]
 
-  val selectAll: Query[Void, User] =
+  val getWords: Query[Void, Word] =
     sql"""SELECT * FROM "word" """.query(codec)
+}
