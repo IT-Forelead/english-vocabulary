@@ -2,7 +2,7 @@ package uz.english.style
 
 import scalacss.internal.Attrs.animationIterationCount.infinite
 import scalacss.internal.Attrs.animationTimingFunction.linear
-import scalacss.internal.{FontFace, Keyframes, NonEmptyVector}
+import scalacss.internal.{Dsl, FontFace, Keyframes, NonEmptyVector}
 import uz.english.CssSettings.*
 
 import scala.language.postfixOps
@@ -81,7 +81,7 @@ object AppStyle extends StyleSheet.Inline {
     ),
   )
 
-  val circleBoxPosition: StyleA = style(
+  val circleBoxPosition: StyleS = mixin(
     content.string(""),
     position.absolute,
     top(0 px),
@@ -144,6 +144,65 @@ object AppStyle extends StyleSheet.Inline {
     &.hover.before(
       backgroundColor(rgba(9,113,195,.3))
     )
+  )
 
+  val navbarLiPosition: StyleS = mixin(
+    content.string(""),
+    position.absolute,
+    right(0px),
+    width(20px),
+    height(20px),
+    backgroundColor(transparent),
+    borderRadius(50%%),
+  )
+
+  val navActive: StyleA = style(
+    backgroundColor :=! "#3F83EF !important",
+    color :=! "white !important",
+    &.before(
+      navbarLiPosition,
+      top(-20px),
+      boxShadow := "10px 10px 0 #3F83EF"
+    ),
+    &.after(
+      bottom(-20px),
+      navbarLiPosition,
+      boxShadow := "10px -10px 0 #3F83EF"
+    ),
+  )
+
+  val navbarS: StyleA = style(
+    position.absolute,
+    top(0px),
+    left(0px),
+    unsafeChild("ul")(
+      backgroundColor(c"#ffa580"),
+      padding(20px, 0px, 10px, 10px),
+      borderRight(5px, solid, c"#3F83EF"),
+      width(120px),
+      transition := "0.5s",
+      overflow.hidden,
+      fontFamily(frijole),
+      boxShadow := "3px 10px 5px #3f83ef",
+      unsafeChild("li")(
+        listStyleType := "none",
+        color(c"#4083ee"),
+        fontSize(15px),
+        marginBottom(10px),
+        cursor.pointer,
+        position.relative,
+        padding(15px, 0px, 15px, 15px),
+        transition := "0.5s",
+        borderTopLeftRadius(20px),
+        borderBottomLeftRadius(20px),
+        &.hover(
+          transition := "0s",
+          backgroundColor(c"#9090907a")
+        )
+      ),
+      &.hover(
+        width(150px)
+      )
+    )
   )
 }
