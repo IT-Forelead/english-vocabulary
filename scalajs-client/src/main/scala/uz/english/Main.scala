@@ -16,7 +16,7 @@ import uz.english.style.AppStyle.*
 import uz.english.CssSettings.*
 import scalacss.toStyleSheetInlineJsOps
 import uz.english.Username._
-import uz.english.WordWithouId._
+import uz.english.WordWithoutId._
 
 
 object Main extends App with AjaxImplicits {
@@ -42,7 +42,7 @@ object Main extends App with AjaxImplicits {
       else if (state.definition.isEmpty)
         Callback.alert("Please enter definition of word!")
       else
-        post[WordWithouId]("/words", WordWithouId(state.word, state.definition))
+        post[WordWithoutId]("/words", WordWithoutId(state.word, state.definition))
           .fail(onError)
           .done[String] { result =>
             $.setState(State()) >> Callback.alert(result)
