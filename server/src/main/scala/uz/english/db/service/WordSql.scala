@@ -22,6 +22,6 @@ object WordSql {
      .command
      .gcontramap[WordWithoutId]
 
-  val getWords: Query[Void, Word] =
+  val selectAll: Query[Void, Word] =
     sql"""SELECT * FROM "word" """.query(codec)
 }

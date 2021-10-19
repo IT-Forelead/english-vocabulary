@@ -1,26 +1,26 @@
 package uz.english.db.algebra
 
 import cats.effect.kernel.Async
-import cats.implicits
+import cats.implicits._
 import skunk.Session
 import uz.english.{WordWithoutId, Word}
 
 trait WordAlgebra[F[_]]:
   def create(word: WordWithoutId): F[Unit]
 
-  def getWords: F[List[Word]]
+  def findAll: F[List[Word]]
 
 object WordAlgebra {
 
-  import uz.english.db.service.WordSql.{insert, getWords}
+  import uz.english.db.service.WordSql._
 
   def apply[F[_]: Async](session: Session[F]) =
     new WordAlgebra[F] {
       override def create(word: WordWithoutId): F[Unit] =
         session.prepare(insert).use(_.execute(word)).void
 
-      override def getWords: F[List[Word]] =
-        session.execute(uz.english.db.service.WordSql.getWords)
+      override def findAll: F[List[Word]] =
+        session.execute(selectAll)
     }
 
 }
