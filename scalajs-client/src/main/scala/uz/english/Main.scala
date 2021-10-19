@@ -15,10 +15,13 @@ import uz.english.style.AppStyle
 import uz.english.style.AppStyle.*
 import uz.english.CssSettings.*
 import scalacss.toStyleSheetInlineJsOps
+import uz.english.Username._
+import uz.english.WordWithouId._
 
 
 object Main extends App with AjaxImplicits {
-  case class State(username: String = "")
+
+  case class State(username: UsernameType = "", word: WordType = "", definition: DefinitionType = "")
   type AppComponent = Component[Unit, State, Backend, CtorType.Nullary]
 
   class Backend($ : BackendScope[Unit, State]) {
@@ -33,18 +36,50 @@ object Main extends App with AjaxImplicits {
             $.setState(State()) >> Callback.alert(result)
           }.asCallback
 
-    def onUserNameChange(e: SyntheticEvent[HTMLInputElement]): Callback =
+    def addNewWord(implicit state: State): Callback =
+      if (state.word.isEmpty)
+        Callback.alert("Please enter word!")
+      else if (state.definition.isEmpty)
+        Callback.alert("Please enter definition of word!")
+      else
+        post[WordWithouId]("/words", WordWithouId(state.word, state.definition))
+          .fail(onError)
+          .done[String] { result =>
+            $.setState(State()) >> Callback.alert(result)
+          }.asCallback
+
+    def onChangeUserName(e: SyntheticEvent[HTMLInputElement]): Callback =
       $.modState(_.copy(username = e.target.value))
 
+    def onChangeWord(e: SyntheticEvent[HTMLInputElement]): Callback =
+      $.modState(_.copy(word = e.target.value))
+
+    def onChangeDefinition(e: SyntheticEvent[HTMLTextAreaElement]): Callback =
+      $.modState(_.copy(definition = e.target.value))
 
     def createUserForm(implicit state: State): VdomTagOf[Div] =
       <.div(box)(
-        <.input(^.placeholder := "Name", ^.onChange ==> onUserNameChange, ^.value := state.username, input),
+        <.input(^.placeholder := "Name...", ^.onChange ==> onChangeUserName, ^.value := state.username, input),
         <.button(button, ^.onClick --> onClickCreate)("Create")
       )
 
+    def createWordForm(implicit state: State): VdomTagOf[Div] =
+      <.div(box)(
+        <.input(^.placeholder := "New word...", ^.onChange ==> onChangeWord, ^.value := state.word, input),
+        <.textarea(^.placeholder := "Definition", ^.onChange ==> onChangeDefinition, ^.value := state.definition, input),
+        <.button(button, ^.onClick --> addNewWord)("Add Word")
+      )
+
+    def animationBox(implicit state: State): VdomTagOf[Div] =
+      <.div(circleBox)(
+        <.div(
+          <.h2("This Is Title Article"),
+          <.p("Lorem Ipsum")
+        )
+      )
+
     def render(implicit state: State): VdomTagOf[Div] =
-      <.div(createUserForm)
+      <.div(createUserForm, createWordForm)
   }
 
   val App: AppComponent =
