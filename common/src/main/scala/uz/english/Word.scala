@@ -1,7 +1,7 @@
 package uz.english
 
-import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
-import io.circe.{Decoder, Encoder}
+import io.circe.generic.semiauto._
+import io.circe._
 import uz.english.Word
 
 case class Word(

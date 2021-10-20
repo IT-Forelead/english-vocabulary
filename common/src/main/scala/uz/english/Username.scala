@@ -1,7 +1,7 @@
 package uz.english
 
-import io.circe.{Decoder, Encoder}
-import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
+import io.circe._
+import io.circe.generic.semiauto._
 import uz.english.Username.UsernameType
 
 case class Username (

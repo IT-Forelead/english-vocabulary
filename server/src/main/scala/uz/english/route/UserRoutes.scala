@@ -8,7 +8,8 @@ import cats.implicits.*
 import io.circe.Encoder
 import io.circe.generic.auto.*
 import org.http4s.circe.CirceInstances
-import uz.english.Username
+import uz.english.JsonUtils.fromJson
+import uz.english._
 import uz.english.service.UserService
 
 object UserRoutes extends CirceInstances:
@@ -20,13 +21,12 @@ object UserRoutes extends CirceInstances:
       case request @ POST -> Root =>
         (for {
           user <- request.as[Username]
-          _ = println("Username:"  + user.name)
           _ <- userService.create(user)
-          resp <- Ok("Successfully created!")
-        } yield (resp)).handleErrorWith { error =>
-          println(error)
-          BadRequest("Error occurred while create user!")
-        }
+          resp <- Ok(Result("Successfully created!"))
+        } yield resp)
+          .handleErrorWith { error =>
+            BadRequest("Error occurred while create user!")
+          }
 
       case GET -> Root =>
         Ok(userService.findAll)

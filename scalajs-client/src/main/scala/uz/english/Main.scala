@@ -41,8 +41,8 @@ object Main extends App with AjaxImplicits {
       else
         post[Username]("/user", Username(state.username))
           .fail(onError)
-          .done[String] { result =>
-            $.setState(State()) >> Callback.alert(result)
+          .done[Result] { result =>
+            $.modState(_.copy(username = "")) >> Callback.alert(result.text)
           }.asCallback
 
     def addNewWord(implicit state: State): Callback =
@@ -53,8 +53,8 @@ object Main extends App with AjaxImplicits {
       else
         post[WordWithoutId]("/words", WordWithoutId(state.word, state.definition))
           .fail(onError)
-          .done[String] { result =>
-            $.setState(State()) >> Callback.alert(result)
+          .done[Result] { result =>
+            $.modState(_.copy(word = "", definition = "")) >> Callback.alert(result.text)
           }.asCallback
 
     def onChangeUserName(e: SyntheticEvent[HTMLInputElement]): Callback =
