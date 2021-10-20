@@ -95,6 +95,12 @@ object AppStyle extends StyleSheet.Inline {
     animationIterationCount.infinite
   )
 
+  val grid: StyleA = style(
+      display.grid,
+      gridTemplateColumns := "repeat(3, 1fr)",
+      gap(100px)
+  )
+  
   val circleBox: StyleA = style(
     position.relative,
     textAlign.center,

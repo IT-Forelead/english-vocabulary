@@ -1,7 +1,7 @@
 package uz.english
-import io.circe.{Decoder, Encoder, Printer}
-import io.circe.parser.parse
-import io.circe.syntax.EncoderOps
+import io.circe._
+import io.circe.parser._
+import io.circe.syntax._
 
 object JsonUtils {
   val printer: Printer = Printer.noSpaces.copy(dropNullValues = true)
