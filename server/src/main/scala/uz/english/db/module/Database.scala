@@ -7,10 +7,11 @@ import cats.effect.std.Console
 import skunk.*
 import natchez.Trace.Implicits.noop
 import uz.english.config.DBConfig
-import uz.english.db.algebra.UserAlgebra
+import uz.english.db.algebra.{UserAlgebra, WordAlgebra}
 
 trait Database[F[_]]:
   val user: Resource[F, UserAlgebra[F]]
+  val word: Resource[F, WordAlgebra[F]]
 
 object Database:
 
@@ -24,3 +25,5 @@ object Database:
         password = config.password.some)
 
     override val user: Resource[F, UserAlgebra[F]] = session.map(UserAlgebra[F](_))
+    
+    override val word: Resource[F, WordAlgebra[F]] = session.map(WordAlgebra[F](_))
