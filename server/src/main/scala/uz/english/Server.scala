@@ -8,9 +8,9 @@ import cats.effect.std.Console
 import org.http4s.blaze.server.BlazeServerBuilder
 import org.http4s.server.staticcontent.{WebjarService, WebjarServiceBuilder}
 import org.http4s.server.{Router, Server}
-import uz.english.route.{RootRoutes, UserRoutes}
+import uz.english.route.{RootRoutes, UserRoutes, WordRoutes}
 import uz.english.config.{Config, DBConfig, ServerConfig}
-import uz.english.service.UserService
+import uz.english.service.{UserService, WordService}
 
 import scala.concurrent.ExecutionContext.global
 
@@ -18,11 +18,10 @@ object Server:
 
   def webjars[F[_]: Async]: HttpRoutes[F] = WebjarServiceBuilder.apply[F].toRoutes
 
-  def userService[F[_]: Async: Console](config: DBConfig): UserService[F] = UserService[F](config)
-
   def router[F[_]: Async: Console](config: Config): HttpRoutes[F] = Router[F](
     "/" -> RootRoutes[F],
-    "/user" -> UserRoutes[F](userService(config.db)),
+    "/user" -> UserRoutes[F](UserService[F](config.db)),
+    "/words" -> WordRoutes[F](WordService[F](config.db)),
     "/webjars" -> webjars[F]
   )
 
