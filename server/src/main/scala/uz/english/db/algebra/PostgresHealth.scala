@@ -1,4 +1,3 @@
-package crowdlabel.db.algebras
 
 import cats._
 import cats.implicits.*

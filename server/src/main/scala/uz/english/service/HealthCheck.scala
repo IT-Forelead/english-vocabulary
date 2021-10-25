@@ -1,4 +1,3 @@
-package crowdlabel.services
 
 import cats.Parallel
 import cats.effect.*
@@ -6,7 +5,6 @@ import cats.effect.kernel.*
 import cats.effect.kernel.implicits.*
 import cats.effect.std.*
 import cats.syntax.all.*
-import crowdlabel.db.algebras.PostgresHealth
 import uz.english.domain.AppStatus
 import skunk.*
 import skunk.codec.all.*
