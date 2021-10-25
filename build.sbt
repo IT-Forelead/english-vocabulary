@@ -7,6 +7,13 @@ lazy val CirceVersion  = "0.14.1"
 lazy val http4sVersion = "0.23.5"
 lazy val specs2Version = "5.0.0-RC-15"
 lazy val skunkVersion  = "0.2.2"
+lazy val catsCore      = "2.6.1"
+lazy val catsEffect    = "3.3-162-2022ef9"
+lazy val scalaCheck    = "1.15.4"
+lazy val scalaTest     = "3.2.9"
+lazy val scalaTestPlus = "3.2.9.0"
+lazy val catsRetry     = "3.1.0"
+lazy val h2database    = "1.4.200"
 
 lazy val projectSettings = Seq(version := "1.0", scalaVersion := "3.0.2")
 
@@ -62,8 +69,14 @@ lazy val `server` = project
       "org.http4s"    %% "http4s-dsl"          % http4sVersion,
       "org.http4s"    %% "http4s-blaze-server" % http4sVersion,
       "org.tpolecat"  %% "skunk-core"          % skunkVersion,
-      "org.typelevel" %% "cats-core"           % "2.6.1",
-      "org.typelevel" %% "cats-effect"         % "3.3-162-2022ef9"),
+      "org.typelevel" %% "cats-core"           % catsCore,
+      "org.typelevel" %% "cats-effect"         % catsEffect,
+      "org.scalacheck"    %% "scalacheck"      % scalaCheck    % Test ,
+      "org.scalatest"     %% "scalatest"       % scalaTest     % Test ,
+      "org.scalatestplus" %% "scalacheck-1-15" % scalaTestPlus % Test,
+      "com.github.cb372"  %% "cats-retry"      % catsRetry,
+      "com.h2database"     % "h2"              % h2database   % Test
+    ),
     scalacOptions ++= Seq("-deprecation", "-encoding", "UTF-8", "-feature", "-unchecked"))
   .enablePlugins(WebScalaJSBundlerPlugin)
 
