@@ -1,4 +1,4 @@
-package uz.english.skunk
+package uz.english.skunkTest
 
 import cats.effect.*
 import uz.english.{IOAssertion, PureTestSuite, StubDatabaseSupport, TestEnv, Username}
