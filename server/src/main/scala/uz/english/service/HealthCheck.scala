@@ -1,3 +1,4 @@
+package uz.english.service
 
 import cats.Parallel
 import cats.effect.*
@@ -6,6 +7,7 @@ import cats.effect.kernel.implicits.*
 import cats.effect.std.*
 import cats.syntax.all.*
 import uz.english.domain.AppStatus
+import uz.english.db.algebra.PostgresHealth
 import skunk.*
 import skunk.codec.all.*
 import skunk.implicits.*

@@ -1,3 +1,4 @@
+package uz.english.db.algebra
 
 import cats._
 import cats.implicits.*
