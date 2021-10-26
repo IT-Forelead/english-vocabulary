@@ -7,7 +7,7 @@ import uz.english.config.DBConfig
 import uz.english.db.module.Database
 
 trait UserService[F[_]]:
-  def create(username: Username): F[Unit]
+  def create(username: Username): F[User]
   
   def findAll: F[List[User]]
 
@@ -18,6 +18,6 @@ object UserService:
       import cats.implicits.*
       private val database = Database[F](config)
 
-      def create(username: Username): F[Unit] = database.user.use(_.create(username))
+      def create(username: Username): F[User] = database.user.use(_.create(username))
       
       def findAll: F[List[User]] = database.user.use(_.findAll)

@@ -14,6 +14,7 @@ lazy val scalaTest     = "3.2.9"
 lazy val scalaTestPlus = "3.2.9.0"
 lazy val catsRetry     = "3.1.0"
 lazy val h2database    = "1.4.200"
+lazy val refinedV      = "0.9.27"
 
 lazy val projectSettings = Seq(version := "1.0", scalaVersion := "3.0.2")
 
@@ -31,7 +32,11 @@ lazy val common                = crossProject(JSPlatform, JVMPlatform)
     libraryDependencies ++= Seq(
       "io.circe" %% "circe-core"    % CirceVersion,
       "io.circe" %% "circe-parser"  % CirceVersion,
-      "io.circe" %% "circe-generic" % CirceVersion))
+      "io.circe" %% "circe-generic" % CirceVersion,
+      "eu.timepit" %% "refined" % refinedV,
+      "eu.timepit" %%% "refined-scalacheck" % refinedV % Test,
+      "io.circe" %% "circe-refined" % CirceVersion
+    ))
   .settings(projectSettings: _*)
 
 lazy val `scalajs-client` = (project in file("scalajs-client"))
