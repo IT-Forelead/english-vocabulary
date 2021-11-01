@@ -18,10 +18,10 @@ object UserSql:
       case (i ~ n) => User(i, n)
     }(c => c.id ~ c.name)
 
-  val insert: Command[Username] =
-    sql"""INSERT INTO "user" VALUES (DEFAULT, $varchar)"""
-     .command
-     .gcontramap[Username]
+  val insert: Query[Username, User] =
+    sql"""INSERT INTO "user" VALUES (DEFAULT, $varchar) returning id, name"""
+      .query(codec)
+      .gcontramap[Username]
 
   val selectAll: Query[Void, User] =
     sql"""SELECT * FROM "user" """.query(codec)

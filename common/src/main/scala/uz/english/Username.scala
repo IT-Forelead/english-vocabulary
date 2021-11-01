@@ -1,7 +1,7 @@
 package uz.english
 
-import io.circe._
-import io.circe.generic.semiauto._
+import io.circe.*
+import io.circe.generic.semiauto.*
 import uz.english.Username.UsernameType
 
 case class Username (
